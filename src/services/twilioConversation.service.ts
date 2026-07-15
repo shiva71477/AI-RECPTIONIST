@@ -26,7 +26,7 @@ export class TwilioConversationService {
 
     gather.say(
       {
-        voice: 'Polly.Neural-Olivia' as any,
+        voice: 'Polly.Joanna-Neural' as any,
         language: 'en-US',
       },
       greetingText,
@@ -36,7 +36,7 @@ export class TwilioConversationService {
     const silenceText = cleanTextForSay("I didn't hear anything. Goodbye.");
     response.say(
       {
-        voice: 'Polly.Neural-Olivia' as any,
+        voice: 'Polly.Joanna-Neural' as any,
         language: 'en-US',
       },
       silenceText,
@@ -64,7 +64,7 @@ export class TwilioConversationService {
 
     gather.say(
       {
-        voice: 'Polly.Neural-Olivia' as any,
+        voice: 'Polly.Joanna-Neural' as any,
         language: 'en-US',
       },
       cleanAiReply,
@@ -74,7 +74,7 @@ export class TwilioConversationService {
     const silenceText = cleanTextForSay('Thank you for calling. Goodbye.');
     response.say(
       {
-        voice: 'Polly.Neural-Olivia' as any,
+        voice: 'Polly.Joanna-Neural' as any,
         language: 'en-US',
       },
       silenceText,
@@ -105,7 +105,7 @@ export class TwilioConversationService {
 
     gather.say(
       {
-        voice: 'Polly.Neural-Olivia' as any,
+        voice: 'Polly.Joanna-Neural' as any,
         language: 'en-US',
       },
       errorRecoveryText,
@@ -115,7 +115,7 @@ export class TwilioConversationService {
     const silenceText = cleanTextForSay('Thank you for calling. Goodbye.');
     response.say(
       {
-        voice: 'Polly.Neural-Olivia' as any,
+        voice: 'Polly.Joanna-Neural' as any,
         language: 'en-US',
       },
       silenceText,

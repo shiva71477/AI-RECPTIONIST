@@ -22,7 +22,7 @@ export class TwilioService {
     );
     response.say(
       {
-        voice: 'Polly.Neural-Olivia' as any,
+        voice: 'Polly.Joanna-Neural' as any,
         language: 'en-US',
       },
       greetingText,

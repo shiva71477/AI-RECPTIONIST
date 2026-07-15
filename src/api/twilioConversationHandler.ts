@@ -5,6 +5,7 @@ import { getGeminiService } from '../services/gemini.service';
 import { getTwilioService } from '../services/twilio.service';
 import { getTwilioConversationService } from '../services/twilioConversation.service';
 import { logger } from '../utils/logger';
+import { env } from '../config/env';
 
 interface TwilioVoiceBody {
   CallSid: string;
@@ -53,7 +54,7 @@ export async function voiceGreetingHandler(
   );
 
   // 3. Return greeting TwiML
-  const actionUrl = `${protocol}://${host}/api/v1/twilio/process`;
+  const actionUrl = `${env.PUBLIC_BASE_URL}/api/v1/twilio/process`;
   const twiml = twilioConvService.generateGreetingTwiML(actionUrl);
   void reply
     .status(200)
@@ -91,7 +92,7 @@ export async function processSpeechHandler(
   // 2. Handle empty speech transcripts gracefully
   if (!SpeechResult || !SpeechResult.trim()) {
     logger.info({ callSid: CallSid, from: From }, 'Empty SpeechResult received from Twilio');
-    const actionUrl = `${protocol}://${host}/api/v1/twilio/process`;
+    const actionUrl = `${env.PUBLIC_BASE_URL}/api/v1/twilio/process`;
     const twiml = twilioConvService.generateErrorRecoveryTwiML(actionUrl);
     void reply
       .status(200)
@@ -146,7 +147,7 @@ export async function processSpeechHandler(
     );
 
     // 5. Generate loop conversation TwiML
-    const actionUrl = `${protocol}://${host}/api/v1/twilio/process`;
+    const actionUrl = `${env.PUBLIC_BASE_URL}/api/v1/twilio/process`;
     const twiml = twilioConvService.generateConversationTwiML(aiResult.text, actionUrl);
     void reply
       .status(200)
@@ -167,7 +168,7 @@ export async function processSpeechHandler(
     );
 
     // 6. Return graceful error recovery TwiML to allow retries
-    const actionUrl = `${protocol}://${host}/api/v1/twilio/process`;
+    const actionUrl = `${env.PUBLIC_BASE_URL}/api/v1/twilio/process`;
     const errorTwiml = twilioConvService.generateErrorRecoveryTwiML(actionUrl);
     void reply
       .status(200)

@@ -36,6 +36,7 @@ const PORT = optionalEnvNumber('PORT', 3000);
 const HOST = optionalEnv('HOST', '0.0.0.0');
 const NODE_ENV = optionalEnv('NODE_ENV', 'development') as 'development' | 'production' | 'test';
 const LOG_LEVEL = optionalEnv('LOG_LEVEL', 'info');
+const PUBLIC_BASE_URL = optionalEnv('PUBLIC_BASE_URL', 'https://ai-recptionist-production.up.railway.app');
 
 // ── Security ──────────────────────────────────────────────────────────────────
 const CORS_ORIGIN = optionalEnv('CORS_ORIGIN', '*');
@@ -83,6 +84,7 @@ export const env = {
   HOST,
   NODE_ENV,
   LOG_LEVEL,
+  PUBLIC_BASE_URL,
   IS_PRODUCTION: NODE_ENV === 'production',
   IS_DEVELOPMENT: NODE_ENV === 'development',
 
