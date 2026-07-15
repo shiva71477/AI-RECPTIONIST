@@ -1,6 +1,7 @@
 import twilio from 'twilio';
 
 import { logger } from '../utils/logger';
+import { cleanTextForSay } from '../utils/helpers';
 
 export class TwilioConversationService {
   constructor() {
@@ -19,25 +20,32 @@ export class TwilioConversationService {
       speechTimeout: 'auto',
     });
 
+    const greetingText = cleanTextForSay(
+      'Hello. Thank you for calling Sparkle Family Dental. I am your AI receptionist. How may I help you today?',
+    );
+
     gather.say(
       {
         voice: 'Polly.Neural-Olivia' as any,
         language: 'en-US',
       },
-      'Hello. Thank you for calling Sparkle Family Dental. I am your AI receptionist. How may I help you today?',
+      greetingText,
     );
 
     // Fallback if the user stays silent
+    const silenceText = cleanTextForSay("I didn't hear anything. Goodbye.");
     response.say(
       {
         voice: 'Polly.Neural-Olivia' as any,
         language: 'en-US',
       },
-      "I didn't hear anything. Goodbye.",
+      silenceText,
     );
     response.hangup();
 
-    return response.toString();
+    const twimlXml = response.toString();
+    logger.info({ twimlXml }, 'Generated Initial Voice Greeting TwiML XML');
+    return twimlXml;
   }
 
   /**
@@ -52,25 +60,30 @@ export class TwilioConversationService {
       speechTimeout: 'auto',
     });
 
+    const cleanAiReply = cleanTextForSay(aiReplyText);
+
     gather.say(
       {
         voice: 'Polly.Neural-Olivia' as any,
         language: 'en-US',
       },
-      aiReplyText,
+      cleanAiReply,
     );
 
     // Fallback if the user stays silent
+    const silenceText = cleanTextForSay('Thank you for calling. Goodbye.');
     response.say(
       {
         voice: 'Polly.Neural-Olivia' as any,
         language: 'en-US',
       },
-      'Thank you for calling. Goodbye.',
+      silenceText,
     );
     response.hangup();
 
-    return response.toString();
+    const twimlXml = response.toString();
+    logger.info({ twimlXml, originalAiText: aiReplyText }, 'Generated Conversation Loop TwiML XML');
+    return twimlXml;
   }
 
   /**
@@ -86,25 +99,32 @@ export class TwilioConversationService {
       speechTimeout: 'auto',
     });
 
+    const errorRecoveryText = cleanTextForSay(
+      "I'm sorry, I encountered a temporary connection issue. Could you please repeat that?",
+    );
+
     gather.say(
       {
         voice: 'Polly.Neural-Olivia' as any,
         language: 'en-US',
       },
-      "I'm sorry, I encountered a temporary connection issue. Could you please repeat that?",
+      errorRecoveryText,
     );
 
     // Fallback if user stays silent
+    const silenceText = cleanTextForSay('Thank you for calling. Goodbye.');
     response.say(
       {
         voice: 'Polly.Neural-Olivia' as any,
         language: 'en-US',
       },
-      'Thank you for calling. Goodbye.',
+      silenceText,
     );
     response.hangup();
 
-    return response.toString();
+    const twimlXml = response.toString();
+    logger.info({ twimlXml }, 'Generated Error Recovery TwiML XML');
+    return twimlXml;
   }
 }
 
