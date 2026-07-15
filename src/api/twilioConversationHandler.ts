@@ -91,7 +91,8 @@ export async function processSpeechHandler(
   // 2. Handle empty speech transcripts gracefully
   if (!SpeechResult || !SpeechResult.trim()) {
     logger.info({ callSid: CallSid, from: From }, 'Empty SpeechResult received from Twilio');
-    const twiml = twilioConvService.generateErrorRecoveryTwiML();
+    const actionUrl = `${protocol}://${host}/api/v1/twilio/process`;
+    const twiml = twilioConvService.generateErrorRecoveryTwiML(actionUrl);
     void reply
       .status(200)
       .header('Content-Type', 'text/xml')
