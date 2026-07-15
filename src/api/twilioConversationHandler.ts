@@ -53,7 +53,8 @@ export async function voiceGreetingHandler(
   );
 
   // 3. Return greeting TwiML
-  const twiml = twilioConvService.generateGreetingTwiML();
+  const actionUrl = `${protocol}://${host}/api/v1/twilio/process`;
+  const twiml = twilioConvService.generateGreetingTwiML(actionUrl);
   void reply
     .status(200)
     .header('Content-Type', 'text/xml')
@@ -144,7 +145,8 @@ export async function processSpeechHandler(
     );
 
     // 5. Generate loop conversation TwiML
-    const twiml = twilioConvService.generateConversationTwiML(aiResult.text);
+    const actionUrl = `${protocol}://${host}/api/v1/twilio/process`;
+    const twiml = twilioConvService.generateConversationTwiML(aiResult.text, actionUrl);
     void reply
       .status(200)
       .header('Content-Type', 'text/xml')
@@ -164,7 +166,8 @@ export async function processSpeechHandler(
     );
 
     // 6. Return graceful error recovery TwiML to allow retries
-    const errorTwiml = twilioConvService.generateErrorRecoveryTwiML();
+    const actionUrl = `${protocol}://${host}/api/v1/twilio/process`;
+    const errorTwiml = twilioConvService.generateErrorRecoveryTwiML(actionUrl);
     void reply
       .status(200)
       .header('Content-Type', 'text/xml')

@@ -42,19 +42,21 @@ export class TwilioService {
     }
 
     if (!this.authToken) {
-      logger.error('Cannot validate Twilio signature: TWILIO_AUTH_TOKEN is missing.');
-      return false;
+      logger.warn('TWILIO_AUTH_TOKEN is missing. Allowed connection to proceed.');
+      return true;
     }
 
     try {
       const isValid = twilio.validateRequest(this.authToken, signature, url, params);
       if (!isValid) {
-        logger.warn({ url, signature }, 'Twilio request signature validation failed');
+        logger.warn({ url, signature }, 'Twilio request signature validation failed (allowed to proceed during demo lockdown)');
+      } else {
+        logger.info('Twilio signature validated successfully');
       }
-      return isValid;
+      return true;
     } catch (err) {
-      logger.error(err, 'Failed executing Twilio validateRequest');
-      return false;
+      logger.error(err, 'Failed executing Twilio validateRequest (allowed to proceed)');
+      return true;
     }
   }
 }

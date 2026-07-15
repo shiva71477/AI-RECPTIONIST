@@ -10,11 +10,11 @@ export class TwilioConversationService {
   /**
    * Generates initial greeting TwiML wrapping `<Say>` inside `<Gather>`.
    */
-  generateGreetingTwiML(): string {
+  generateGreetingTwiML(actionUrl?: string): string {
     const response = new twilio.twiml.VoiceResponse();
     const gather = response.gather({
       input: ['speech'],
-      action: '/api/v1/twilio/process',
+      action: actionUrl || '/api/v1/twilio/process',
       timeout: 5,
       speechTimeout: 'auto',
     });
@@ -43,11 +43,11 @@ export class TwilioConversationService {
   /**
    * Generates response TwiML containing the AI response and a subsequent `<Gather>` loop.
    */
-  generateConversationTwiML(aiReplyText: string): string {
+  generateConversationTwiML(aiReplyText: string, actionUrl?: string): string {
     const response = new twilio.twiml.VoiceResponse();
     const gather = response.gather({
       input: ['speech'],
-      action: '/api/v1/twilio/process',
+      action: actionUrl || '/api/v1/twilio/process',
       timeout: 5,
       speechTimeout: 'auto',
     });
@@ -77,11 +77,11 @@ export class TwilioConversationService {
    * Generates error TwiML to gracefully recover from OpenRouter errors
    * without hanging up, letting the customer retry.
    */
-  generateErrorRecoveryTwiML(): string {
+  generateErrorRecoveryTwiML(actionUrl?: string): string {
     const response = new twilio.twiml.VoiceResponse();
     const gather = response.gather({
       input: ['speech'],
-      action: '/api/v1/twilio/process',
+      action: actionUrl || '/api/v1/twilio/process',
       timeout: 5,
       speechTimeout: 'auto',
     });
