@@ -21,7 +21,7 @@ export class TwilioConversationService {
     });
 
     const greetingText = cleanTextForSay(
-      'Hello. Thank you for calling Sparkle Family Dental. I am your AI receptionist. How may I help you today?',
+      'Hello. Thank you for calling Alpha Studi0. How may I help you today?',
     );
 
     gather.say(

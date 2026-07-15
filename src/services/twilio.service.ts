@@ -18,7 +18,7 @@ export class TwilioService {
   generateGreetingTwiML(): string {
     const response = new twilio.twiml.VoiceResponse();
     const greetingText = cleanTextForSay(
-      'Hello. Thank you for calling. I am your AI receptionist. How may I help you today?',
+      'Hello. Thank you for calling Alpha Studi0. How may I help you today?',
     );
     response.say(
       {
