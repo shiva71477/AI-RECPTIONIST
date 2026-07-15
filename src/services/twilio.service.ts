@@ -2,6 +2,7 @@ import twilio from 'twilio';
 
 import { env } from '../config/env';
 import { logger } from '../utils/logger';
+import { cleanTextForSay } from '../utils/helpers';
 
 export class TwilioService {
   private readonly authToken: string;
@@ -16,15 +17,20 @@ export class TwilioService {
    */
   generateGreetingTwiML(): string {
     const response = new twilio.twiml.VoiceResponse();
+    const greetingText = cleanTextForSay(
+      'Hello. Thank you for calling. I am your AI receptionist. How may I help you today?',
+    );
     response.say(
       {
         voice: 'Polly.Neural-Olivia' as any,
         language: 'en-US',
       },
-      'Hello. Thank you for calling. I am your AI receptionist. How may I help you today?',
+      greetingText,
     );
 
-    return response.toString();
+    const twimlXml = response.toString();
+    logger.info({ twimlXml }, 'Generated Static Voice Webhook TwiML XML');
+    return twimlXml;
   }
 
   /**

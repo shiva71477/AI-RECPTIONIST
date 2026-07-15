@@ -35,11 +35,12 @@ export function safeJsonParse<T = unknown>(raw: string): T | null {
 
 /**
  * Cleans string inputs to ensure they contain only safe plain UTF-8 text for Twilio <Say>.
- * Strips markdown, HTML, XML, SSML, emojis, bullets, raw ampersands, and limits length to ~400 chars.
+ * Strips markdown, HTML, XML, SSML, emojis, bullets, raw ampersands, and limits length to under 400 chars.
  */
 export function cleanTextForSay(text: string | null | undefined): string {
-  if (!text) {
-    return "I'm sorry, I didn't catch that. Could you please repeat it?";
+  const fallback = "Hello. Thank you for calling Alpha Studi0. How may I help you today?";
+  if (!text || !text.trim()) {
+    return fallback;
   }
 
   let cleaned = text;
@@ -59,12 +60,12 @@ export function cleanTextForSay(text: string | null | undefined): string {
   // 5. Replace ampersands with 'and' for clean pronunciation and safe XML parsing
   cleaned = cleaned.replace(/&/g, ' and ');
 
-  // 6. Escape XML character delimiters by changing brackets to safe whitespace
-  cleaned = cleaned.replace(/</g, ' ').replace(/>/g, ' ');
+  // 6. Escape XML character delimiters by changing to safe space or single quote
+  cleaned = cleaned.replace(/</g, ' ').replace(/>/g, ' ').replace(/"/g, ' ').replace(/'/g, ' ');
 
-  // 7. Limit length to ~400 characters, trying to end on a clean sentence or space
-  if (cleaned.length > 400) {
-    const truncated = cleaned.substring(0, 397);
+  // 7. Limit length to under 400 characters, trying to end on a clean sentence or space
+  if (cleaned.length > 390) {
+    const truncated = cleaned.substring(0, 385);
     const lastSpace = truncated.lastIndexOf(' ');
     if (lastSpace > 300) {
       cleaned = truncated.substring(0, lastSpace) + '...';
@@ -73,6 +74,5 @@ export function cleanTextForSay(text: string | null | undefined): string {
     }
   }
 
-  return cleaned.trim() || "I'm sorry, can you please repeat that?";
+  return cleaned.trim() || fallback;
 }
-
