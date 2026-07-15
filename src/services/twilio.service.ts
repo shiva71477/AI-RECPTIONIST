@@ -1,0 +1,71 @@
+import twilio from 'twilio';
+
+import { env } from '../config/env';
+import { logger } from '../utils/logger';
+
+export class TwilioService {
+  private readonly authToken: string;
+
+  constructor() {
+    this.authToken = env.TWILIO_AUTH_TOKEN || '';
+    logger.info('TwilioService initialized');
+  }
+
+  /**
+   * Generates TwiML response containing the initial greeting <Say> node.
+   */
+  generateGreetingTwiML(): string {
+    const response = new twilio.twiml.VoiceResponse();
+    response.say(
+      {
+        voice: 'Polly.Neural-Olivia' as any,
+        language: 'en-US',
+      },
+      'Hello. Thank you for calling. I am your AI receptionist. How may I help you today?',
+    );
+
+    return response.toString();
+  }
+
+  /**
+   * Validates Twilio webhook request signatures to prevent spoofing.
+   * Bypassed in development mode to make local testing simple.
+   */
+  validateRequest(
+    signature: string,
+    url: string,
+    params: Record<string, any>,
+  ): boolean {
+    if (env.IS_DEVELOPMENT) {
+      logger.debug('Bypassing Twilio signature check in development mode');
+      return true;
+    }
+
+    if (!this.authToken) {
+      logger.error('Cannot validate Twilio signature: TWILIO_AUTH_TOKEN is missing.');
+      return false;
+    }
+
+    try {
+      const isValid = twilio.validateRequest(this.authToken, signature, url, params);
+      if (!isValid) {
+        logger.warn({ url, signature }, 'Twilio request signature validation failed');
+      }
+      return isValid;
+    } catch (err) {
+      logger.error(err, 'Failed executing Twilio validateRequest');
+      return false;
+    }
+  }
+}
+
+// ── Singleton ─────────────────────────────────────────────────────────────────
+
+let _twilioServiceInstance: TwilioService | null = null;
+
+export function getTwilioService(): TwilioService {
+  if (!_twilioServiceInstance) {
+    _twilioServiceInstance = new TwilioService();
+  }
+  return _twilioServiceInstance;
+}

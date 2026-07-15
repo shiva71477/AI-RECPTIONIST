@@ -1,0 +1,67 @@
+{
+  "name": "Sparkle Family Dental",
+  "description": "A modern family and cosmetic dental practice dedicated to providing premium oral healthcare. We offer comprehensive treatments ranging from routine cleanings to advanced dental implants and cosmetic teeth whitening in a comfortable, state-of-the-art environment.",
+  "address": "123 Smile Way, Suite 100, Denver, CO 80202",
+  "phone": "(303) 555-0199",
+  "email": "info@sparkledentaldenver.com",
+  "hours": {
+    "mondayToFriday": "8:00 AM - 5:00 PM",
+    "saturday": "9:00 AM - 2:00 PM",
+    "sunday": "Closed"
+  },
+  "services": [
+    {
+      "name": "Routine Cleaning & Exam",
+      "price": "$120",
+      "description": "Standard diagnostic exam, X-rays, plaque removal, and polishing. Recommended every 6 months."
+    },
+    {
+      "name": "Teeth Whitening",
+      "price": "$350",
+      "description": "In-office professional laser teeth whitening session that brightens teeth up to 8 shades in one hour."
+    },
+    {
+      "name": "Composite Filling",
+      "price": "$180 - $250",
+      "description": "Tooth-colored composite resin fillings to repair cavities, blending seamlessly with your natural teeth."
+    },
+    {
+      "name": "Emergency Dental Exam",
+      "price": "$90",
+      "description": "Urgent diagnostic appointment for acute tooth pain, chips, cracks, or swelling. Treatment cost calculated separately."
+    },
+    {
+      "name": "Dental Implants",
+      "price": "Starting at $2,500",
+      "description": "Permanent tooth replacement solution consisting of a titanium post and custom porcelain crown."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Do you accept insurance?",
+      "answer": "Yes, we accept all major PPO insurance plans. We do not accept HMO plans or Medicaid at this time. Our staff will file all claims on your behalf."
+    },
+    {
+      "question": "Is there parking available?",
+      "answer": "Yes, there is free validated parking available for all patients in the garage attached to the building."
+    },
+    {
+      "question": "What should I bring to my first visit?",
+      "answer": "Please bring a valid photo ID, your dental insurance card, and a list of any current medications you are taking."
+    },
+    {
+      "question": "Do you treat children?",
+      "answer": "Yes, we are a family-friendly practice and treat pediatric patients starting at age 2."
+    }
+  ],
+  "booking": {
+    "durationMinutes": 45,
+    "rules": [
+      "Appointments must be scheduled at least 2 hours in advance.",
+      "The receptionist must collect the caller's full name, phone number, and preferred date and time.",
+      "The receptionist must verify which service is being requested.",
+      "Do not confirm availability for specific slots without checking; check with the customer first and assume default openings exist unless they request off-hours."
+    ],
+    "cancellationPolicy": "We require at least 24 hours notice for any appointment cancellations or rescheduling. Cancellations with less than 24 hours notice may be subject to a $50 fee."
+  }
+}

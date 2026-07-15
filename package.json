@@ -1,0 +1,60 @@
+{
+  "name": "ai-receptionist",
+  "version": "1.0.0",
+  "description": "AI-powered receptionist backend — Fastify + TypeScript, integrated with Twilio Voice, Google Gemini, Calendar, Supabase, and Redis.",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "npx tsx watch src/server.ts",
+    "build": "tsc --project tsconfig.build.json",
+    "start": "node dist/server.js",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "type-check": "tsc --noEmit",
+    "clean": "rimraf dist"
+  },
+  "keywords": [
+    "ai",
+    "receptionist",
+    "fastify",
+    "typescript",
+    "twilio",
+    "gemini"
+  ],
+  "author": "",
+  "license": "UNLICENSED",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "dependencies": {
+    "@fastify/cors": "^9.0.1",
+    "@fastify/formbody": "^7.4.0",
+    "@fastify/helmet": "^11.1.1",
+    "@fastify/rate-limit": "^9.1.0",
+    "@fastify/sensible": "^5.6.0",
+    "@google/generative-ai": "^0.24.1",
+    "@supabase/supabase-js": "^2.110.5",
+    "dotenv": "^16.4.5",
+    "fastify": "^4.28.1",
+    "googleapis": "^173.0.0",
+    "openai": "^6.46.0",
+    "pino": "^9.3.2",
+    "pino-pretty": "^11.2.2",
+    "twilio": "^6.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@typescript-eslint/eslint-plugin": "^7.16.0",
+    "@typescript-eslint/parser": "^7.16.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "prettier": "^3.3.3",
+    "rimraf": "^5.0.9",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.3"
+  }
+}
