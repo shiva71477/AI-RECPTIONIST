@@ -13,14 +13,22 @@ export class TwilioService {
   }
 
   /**
-   * Generates TwiML response containing the initial greeting <Say> node.
+   * Generates TwiML response containing the initial greeting <Say> node inside a <Gather> loop.
    */
   generateGreetingTwiML(): string {
     const response = new twilio.twiml.VoiceResponse();
+    const gather = response.gather({
+      input: ['speech'],
+      action: `${env.PUBLIC_BASE_URL}/api/v1/twilio/process`,
+      timeout: 5,
+      speechTimeout: 'auto',
+    });
+
     const greetingText = cleanTextForSay(
       'Hello. Thank you for calling Alpha Studi0. How may I help you today?',
     );
-    response.say(
+
+    gather.say(
       {
         voice: 'Polly.Joanna-Neural' as any,
         language: 'en-US',
@@ -28,8 +36,28 @@ export class TwilioService {
       greetingText,
     );
 
+    // Fallback if the user stays silent
+    const silenceText = cleanTextForSay('I did not hear anything. Goodbye.');
+    response.say(
+      {
+        voice: 'Polly.Joanna-Neural' as any,
+        language: 'en-US',
+      },
+      silenceText,
+    );
+    response.hangup();
+
     const twimlXml = response.toString();
-    logger.info({ twimlXml }, 'Generated Static Voice Webhook TwiML XML');
+    logger.info(
+      {
+        gatherUrl: `${env.PUBLIC_BASE_URL}/api/v1/twilio/process`,
+        statusUrl: `${env.PUBLIC_BASE_URL}/api/v1/twilio/status`,
+        speechText: 'N/A - Initial Greeting',
+        aiReply: greetingText,
+        twimlXml,
+      },
+      `Generated TwiML:\n${twimlXml}`
+    );
     return twimlXml;
   }
 
